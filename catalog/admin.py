@@ -4,7 +4,7 @@ from .models import Songs, Artist, Album
 
 @admin.register(Songs)
 class SongsAdmin(admin.ModelAdmin):
-    list_display = ['title', 'artist', 'album', 'release_date', 'views']
+    list_display = ['title', 'artist','show_collab' ,'album', 'release_date', 'views', 'audio']
     list_filter = ['title', 'album','release_date', 'views']
 
 
@@ -13,7 +13,10 @@ class SongsAdmin(admin.ModelAdmin):
 class ArtistAdmin(admin.ModelAdmin):
     list_display = ['name', 'debutYear', 'biography', 'image']
     list_filter = ['name', 'debutYear']
+    read_only = ['image']
 
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['title', 'artist', 'releaseDate', 'image']
+    list_filter = ['title', 'releaseDate']
+    read_only = ['image']
