@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+    <h1>Index</h1>
+    {% for song in songs %}
+            <li> {{song.title}} 
+                <audio controls autoplay src="{{ song.get_song_url }}"></audio>
+                
+                
+    {% endfor %}
+
+    {% for alb in album %}
+            <li> {{alb.title}} 
+                <img src="{{ alb.get_image_url}}" width="100px" height="100px">
+                
+                
+    {% endfor %}
+
+
+</body>
+</html>

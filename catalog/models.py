@@ -1,7 +1,24 @@
+from os import truncate
 from django.db import models
 from django.db.models.base import Model
 from django.db.models.fields import CharField, DateField, IntegerField, TextField
 # Create your models here.
+
+
+
+class Countries(models.Model):
+    """Modelo de paises"""
+    country  = CharField("Pais", max_length=50)
+
+    def __str__(self):
+        return self.country
+
+class Genre(models.Model):
+    """Modelo de estilos musicales"""
+    genre = CharField("genero Musical", max_length= 50)
+
+    def __str__(self):
+        return self.genre
 
 
 class Artist(models.Model):
@@ -10,13 +27,22 @@ class Artist(models.Model):
     name = CharField("Nombre Grupo/Cantante", max_length=80)
     debutYear = DateField("Año de debut")
     biography = TextField("Biografia")
+    genre = models.ManyToManyField(Genre, blank=True)
     image = models.ImageField(upload_to='images/Artist', null=True, blank=True)
-    #country
-    #label
+    country = models.ForeignKey(Countries, on_delete=models.SET_NULL, null=True, blank=True)
+    
+
+
+    def show_genre(self):
+        '''Muestra genero para admin'''
+
+        return ', '.join([gen.genre for gen in self.genre.all()[:3]])
+
+    show_genre.short_description = 'Generos'
+
 
     def __str__(self) :
         return self.name
-
 
 class Album(models.Model):
     """Modelo de Album"""
@@ -26,6 +52,12 @@ class Album(models.Model):
     releaseDate = DateField("Año de debut")
     image = models.ImageField(upload_to='images/Album', null=True, blank=True)
     
+    @property
+    def get_image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+
+
     def __str__(self) :
         return self.title
 
@@ -40,8 +72,7 @@ class Songs(models.Model):
     album =  models.ForeignKey(Album, on_delete=models.SET_NULL, null=True)
     release_date = DateField("Fecha de lanzamiento")
     views = IntegerField("Visitas", blank=True, null=True)
-    #genre =
-    #language
+    genre = models.ManyToManyField(Genre, blank=True)
     audio = models.FileField(upload_to='Songs/', null=True, blank=True)
 
     def __str__(self) :
@@ -50,8 +81,24 @@ class Songs(models.Model):
 
     def show_collab(self):
         '''Muestra genero para admin'''
+
         return ', '.join([coll.name for coll in self.collab_artists.all()[:3]])
-    show_collab.short_description = 'Collab Artist'
+
+    show_collab.short_description = 'Artista Colaborador'
+
+
+    def show_genre(self):
+        '''Muestra genero para admin'''
+
+        return ', '.join([gen.genre for gen in self.genre.all()[:3]])
+
+    show_genre.short_description = 'Generos'
+
+
+    @property
+    def get_song_url(self):
+        if self.audio and hasattr(self.audio, 'url'):
+            return self.audio.url
 
     class Meta:
         verbose_name='Song'
