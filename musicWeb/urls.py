@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from catalog.views import  index
+from catalog.views import  index, artist, countries, AlbumDetailView, ArtistDetailView, CountryDetailView
 from django.conf import settings # new
 from django.urls import path # new
 from django.conf.urls.static import static # new
@@ -26,6 +26,15 @@ urlpatterns = [
     #Index
     #path('', HomePageView.as_view(), name='index'),
     path('', index, name='index'),
+    #Artist
+    path('artist/', artist, name='artist'),
+    path('artist/details/<int:pk>', ArtistDetailView.as_view(), name='artistDetail'),
+    #Album
+    path('album/details/<int:pk>', AlbumDetailView.as_view(), name='albumDetail'),
+    #Country
+    path('countries/', countries, name='countries'),
+    path('country/details/<int:pk>', CountryDetailView.as_view(), name='countryDetail'),
+    #Genre
 ]
 
 if settings.DEBUG: # new

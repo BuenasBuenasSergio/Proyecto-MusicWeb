@@ -1,6 +1,6 @@
 from os import truncate
 from django.db import models
-from django.db.models.base import Model
+from django.urls import reverse
 from django.db.models.fields import CharField, DateField, IntegerField, TextField
 # Create your models here.
 
@@ -9,17 +9,35 @@ from django.db.models.fields import CharField, DateField, IntegerField, TextFiel
 class Countries(models.Model):
     """Modelo de paises"""
     country  = CharField("Pais", max_length=50)
+    image = models.ImageField(upload_to='images/Countries', null=True, blank=True)
 
     def __str__(self):
         return self.country
 
+    @property
+    def get_image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+
+    def get_absolute_url(self):      
+        return reverse('countryDetail', args=self.id)
+
 class Genre(models.Model):
     """Modelo de estilos musicales"""
     genre = CharField("genero Musical", max_length= 50)
+    image = models.ImageField(upload_to='images/Genre', null=True, blank=True)
 
     def __str__(self):
         return self.genre
 
+    @property
+    def get_image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+
+    def get_absolute_url(self):      
+        return reverse('genreDetail', args=self.id)
+        
 
 class Artist(models.Model):
     """Modelo para los artistas/Bandas"""
@@ -41,6 +59,15 @@ class Artist(models.Model):
     show_genre.short_description = 'Generos'
 
 
+    @property
+    def get_image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+
+
+    def get_absolute_url(self):      
+        return reverse('artistDetail', args=self.id)
+
     def __str__(self) :
         return self.name
 
@@ -56,6 +83,9 @@ class Album(models.Model):
     def get_image_url(self):
         if self.image and hasattr(self.image, 'url'):
             return self.image.url
+
+    def get_absolute_url(self):      
+        return reverse('albumDetail', args=self.id)
 
 
     def __str__(self) :
@@ -99,6 +129,9 @@ class Songs(models.Model):
     def get_song_url(self):
         if self.audio and hasattr(self.audio, 'url'):
             return self.audio.url
+
+    def get_field_values(self):
+        return [field.value_to_string(self) for field in Songs._meta.fields]
 
     class Meta:
         verbose_name='Song'

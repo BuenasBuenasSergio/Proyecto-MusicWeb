@@ -1,27 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
-</head>
-<body>
-    <h1>Index</h1>
-    {% for song in songs %}
-            <li> {{song.title}} 
-                <audio controls autoplay src="{{ song.get_song_url }}"></audio>
-                
-                
-    {% endfor %}
+{% extends "base.html" %}
 
-    {% for alb in album %}
-            <li> {{alb.title}} 
-                <img src="{{ alb.get_image_url}}" width="100px" height="100px">
-                
-                
-    {% endfor %}
+{% block title %} Pagina Principal {% endblock %}
+{% block content %}
 
 
-</body>
-</html>
+    <h1 style="color: white;">Ultimos lanzamientos</h1>
+
+    <div class="container">
+            <div class="row">
+                {% for song in songs %}
+                <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3" >
+                    <div id="fondo">
+                        <img class="card-img" src="{{song.album.get_image_url}}">
+                    </div>
+                    <div class="card-img-overlay">
+                        <div  class="texto">
+                            <h5 class="card-title">{{song.title}}</h5>
+                            <p class="card-text">{{song.artist}}</p>
+                            <p class="card-text text-center "><audio controls src="{{ song.get_song_url }}" class=""></audio></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+  {% endblock %}
