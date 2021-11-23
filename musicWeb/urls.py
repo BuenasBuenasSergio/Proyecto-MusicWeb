@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from catalog.views import  albums, index, artist, countries, AlbumDetailView, ArtistDetailView, CountryDetailView, genres,GenresDetailView,SearchResultsListView
+from catalog.views import  albums, index, artist, countries, AlbumDetailView, ArtistDetailView, CountryDetailView, genres,GenresDetailView,SearchResultsListView, CreateSong
 from django.conf import settings # new
 from django.urls import path # new
 from django.conf.urls.static import static # new
@@ -40,6 +40,10 @@ urlpatterns = [
     path('genres/details/<int:pk>', GenresDetailView.as_view(), name='genreDetail'),
     #Busqueda
     path('searchSongs/', SearchResultsListView.as_view(), name ='search_results'),
+
+    #creacion de elementos
+    path('song/create', CreateSong.as_view(), name='create_song'),
+
 ]
 
 if settings.DEBUG: # new

@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from catalog.models import Songs, Album, Artist, Countries, Genre
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.views import generic
 # django.views.generic import ListView
 
 # Create your views here.
@@ -115,3 +116,11 @@ class SearchResultsListView(ListView):
         def get_queryset(self): # new
                 query = self.request.GET.get('q')
                 return Songs.objects.filter(title__icontains=query)
+
+
+class CreateSong(generic.CreateView):
+        """Crear Cancion"""
+        model = Songs
+        fields = '__all__'
+        template_name = 'createSong.html'
+        success_url = '/'
