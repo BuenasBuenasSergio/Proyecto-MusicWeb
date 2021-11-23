@@ -2,6 +2,7 @@ from django.db.models.query_utils import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from catalog.models import Songs, Album, Artist, Countries, Genre
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 # django.views.generic import ListView
 
 # Create your views here.
@@ -106,6 +107,11 @@ class GenresDetailView(DetailView):
 
 
 
-# class HomePageView(ListView):
-#     model = Album
-#     template_name = 'index.html'
+class SearchResultsListView(ListView):
+        """Busqueda de canciones"""
+        model = Songs
+        context_object_name = 'songs_list'
+        template_name = 'search_songs.html'
+        def get_queryset(self): # new
+                query = self.request.GET.get('q')
+                return Songs.objects.filter(title__icontains=query)

@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block title %} Pagina Principal {% endblock %} {%
+block content %}
+<h1 style="color: white">Ultimos lanzamientos</h1>
+
+<div class="container">
+    <div class="row">
+        {% for artista in artistas %}
+        <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3">
+            <a href="{% url 'artistDetail' artista.id %}">
+            <div id="fondo">
+                <img class="card-img" src="{{artista.get_image_url}}" />
+            </div>
+            <div class="card-img-overlay">
+                <div class="texto">
+                <h5 class="card-title">{{artista.name}}</h5>
+            </div>
+            </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
