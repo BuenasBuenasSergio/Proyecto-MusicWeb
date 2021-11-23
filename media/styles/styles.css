@@ -1,16 +1,56 @@
 .card-img{
-        filter: brightness(50%);
+    filter: brightness(50%);
+    width: 350px;
+    height: 280px;
 }
 
 audio{
     max-width: 100%;
     max-height: 100%;
+    align-self: center;
 }
 
 .texto{
-    margin-top: 30%;
+    margin-top: 40%;
 }
 
 .space{
     height: 100px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+a:hover{
+    color: #00bb2d;
+}
+
+.navbar-dark .navbar-brand:hover {
+    color: #00bb2d;
+}
+
+.navbar-dark .navbar-nav .nav-link.active:hover {
+    color: #00bb2d;
+}
+
+.card .bg-black .text-white{
+    width: 350px;
+    height: 250px;
+}
+
+.artist_table tr td{
+    width: 16.66%;
+}
+.artist_table tr td{
+    width: 15%;
+}
+.artist_table tr td:last-child{
+    width: 25%;
+}
+
+.album_table tr td{
+    width: 25%;
 }

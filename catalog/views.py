@@ -1,3 +1,4 @@
+from django.db.models.query_utils import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from catalog.models import Songs, Album, Artist, Countries
 from django.views.generic.detail import DetailView
@@ -26,7 +27,6 @@ def artist(request):
         return render(request, 'artist.html', context=datos)
 
 
-
 def artistDetail(request, pk):
 
         details = get_object_or_404(Artist, pk=int(id))
@@ -43,8 +43,8 @@ class ArtistDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['song_list'] = Songs.objects.all().filter()
-        context['album_list'] = Album.objects.all().filter()
+        context['song_list'] = Songs.objects.filter(Q(artist=self.object) | Q(collab_artists=self.object)).distinct().order_by('-views')[:5]
+        context['album_list'] = Album.objects.filter(artist=self.object)
         return context
 
 
@@ -55,7 +55,7 @@ class AlbumDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['song_list'] = Songs.objects.all().filter()
+        context['song_list'] = Songs.objects.filter(album=self.object)
         return context
 
 
@@ -75,7 +75,7 @@ class CountryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['artist_list'] = Artist.objects.all().filter()
+        context['artist_list'] = Artist.objects.filter(country=self.object)
         return context
 
 

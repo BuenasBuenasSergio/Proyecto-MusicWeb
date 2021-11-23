@@ -6,20 +6,20 @@
 
     <div class="container">
             <div class="row">
-                {% for artista in artistas %}
+                {% for country in countries %}
                 
-                  <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3" >
-                    <!-- <a href="{% url 'artistDetail' artista.id %}"> -->
-                      <div id="fondo">
-                          <img class="card-img" src="{{artista.get_image_url}}" style="height: 25%; height: 100%;" >
-                      </div>
-                      <div class="card-img-overlay">
-                          <div  class="texto">
-                          <h5 class="card-title">{{artista.name}}</h5>
-                          </div>
-                      </div>
-                    <!-- </a> -->
-                  </div>
+                <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3" >
+                    <a href="{% url 'countryDetail' country.id %}">
+                    <div id="fondo">
+                        <img class="card-img " src="{{country.get_image_url}}" >
+                    </div>
+                    <div class="card-img-overlay">
+                        <div  class="texto">
+                        <h5 class="card-title">{{country.name}}</h5>
+                        </div>
+                    </div>
+                    </a>
+                </div>
             {% endfor %}
         </div>
     </div>

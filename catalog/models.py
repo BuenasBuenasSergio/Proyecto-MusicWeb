@@ -91,7 +91,6 @@ class Album(models.Model):
     def __str__(self) :
         return self.title
 
-
 class Songs(models.Model):
 
     """Modelo Para Canciones"""
@@ -101,7 +100,7 @@ class Songs(models.Model):
     collab_artists = models.ManyToManyField(Artist, related_name='Collab', blank=True)
     album =  models.ForeignKey(Album, on_delete=models.SET_NULL, null=True)
     release_date = DateField("Fecha de lanzamiento")
-    views = IntegerField("Visitas", blank=True, null=True)
+    views = IntegerField("Visitas", blank=True, null=True, default=0)
     genre = models.ManyToManyField(Genre, blank=True)
     audio = models.FileField(upload_to='Songs/', null=True, blank=True)
 
