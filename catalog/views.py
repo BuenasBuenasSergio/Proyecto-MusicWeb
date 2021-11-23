@@ -1,6 +1,6 @@
 from django.db.models.query_utils import Q
 from django.shortcuts import render, get_object_or_404, redirect
-from catalog.models import Songs, Album, Artist, Countries
+from catalog.models import Songs, Album, Artist, Countries, Genre
 from django.views.generic.detail import DetailView
 # django.views.generic import ListView
 
@@ -35,7 +35,6 @@ def artistDetail(request, pk):
         return render(request, 'artistdetails.html', context=datos)
 
 
-
 class ArtistDetailView(DetailView):
 
     model = Artist
@@ -46,6 +45,14 @@ class ArtistDetailView(DetailView):
         context['song_list'] = Songs.objects.filter(Q(artist=self.object) | Q(collab_artists=self.object)).distinct().order_by('-views')[:5]
         context['album_list'] = Album.objects.filter(artist=self.object)
         return context
+
+def albums(request):
+        """Pagina listado de Paises"""
+        albums = Album.objects.all().order_by('title')
+
+        datos = {'albums': albums}
+
+        return render(request, 'album.html', context=datos)
 
 
 class AlbumDetailView(DetailView):
@@ -70,13 +77,32 @@ def countries(request):
 
 class CountryDetailView(DetailView):
 
-    model = Countries
-    template_name = 'countrydetails.html'
+        model = Countries
+        template_name = 'countrydetails.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['artist_list'] = Artist.objects.filter(country=self.object)
-        return context
+        def get_context_data(self, **kwargs):
+                context = super().get_context_data(**kwargs)
+                context['artist_list'] = Artist.objects.filter(country=self.object)
+                return context
+
+
+def genres(request):
+        """Pagina listado de Paises"""
+        genres = Genre.objects.all()
+
+        datos = {'genres': genres}
+
+        return render(request, 'genres.html', context=datos)
+
+class GenresDetailView(DetailView):
+
+        model = Genre
+        template_name = 'genredetails.html'
+
+        def get_context_data(self, **kwargs):
+                context = super().get_context_data(**kwargs)
+                context['artist_list'] = Artist.objects.filter(genre=self.object)
+                return context
 
 
 

@@ -47,6 +47,7 @@ class Artist(models.Model):
     biography = TextField("Biografia")
     genre = models.ManyToManyField(Genre, blank=True)
     image = models.ImageField(upload_to='images/Artist', null=True, blank=True)
+    imageB = models.ImageField(upload_to='images/Artist/Banner', null=True, blank=True)
     country = models.ForeignKey(Countries, on_delete=models.SET_NULL, null=True, blank=True)
     
 
@@ -61,11 +62,19 @@ class Artist(models.Model):
 
     @property
     def get_image_url(self):
+        """Recibiendo URLS de Imagenes"""
         if self.image and hasattr(self.image, 'url'):
             return self.image.url
 
+    
+    @property
+    def get_imageBanner_url(self):
+        if self.imageB and hasattr(self.imageB, 'url'):
+            return self.imageB.url
 
-    def get_absolute_url(self):      
+
+    def get_absolute_url(self):
+        """Preparando para recibir el id en vistas"""
         return reverse('artistDetail', args=self.id)
 
     def __str__(self) :
@@ -126,6 +135,7 @@ class Songs(models.Model):
 
     @property
     def get_song_url(self):
+        """Recibiendo la URL de las canciones"""
         if self.audio and hasattr(self.audio, 'url'):
             return self.audio.url
 
