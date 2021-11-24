@@ -54,3 +54,27 @@ a:hover{
 .album_table tr td{
     width: 25%;
 }
+
+.page-item a{
+    background-color: black;
+    border: grey;
+    color: green
+}
+
+.page-item a:hover{
+    background-color: green;
+    color: white
+}
+
+.page-item.active .page-link{
+    background-color: green;
+    border: grey;
+    color: white
+}
+
+
+.page-item.disabled{
+    background-color: black;
+    border: grey;
+    color: grey
+}

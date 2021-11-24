@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from catalog.views import  albums, index, artist, countries, AlbumDetailView, ArtistDetailView, CountryDetailView, genres,GenresDetailView,SearchResultsListView, CreateSong
+from catalog.views import  albums, index, artist, countries, AlbumDetailView, ArtistDetailView,CountryDetailView, genres,GenresDetailView,SearchResultsListView 
+from catalog.views import  CreateSong, CreateAlbum, CreateArtist
+from catalog.views import  DeleteSong, DeleteAlbum, DeleteArtist
+from catalog.views import   ModifySong, ModifyAlbum, ModifyArtist
 from django.conf import settings # new
 from django.urls import path # new
 from django.conf.urls.static import static # new
@@ -43,7 +46,18 @@ urlpatterns = [
 
     #creacion de elementos
     path('song/create', CreateSong.as_view(), name='create_song'),
+    path('album/create', CreateAlbum.as_view(), name='create_album'),
+    path('artist/create', CreateArtist.as_view(), name='create_artist'),
 
+    #EliminarRegistros
+    path('song/delete/<int:pk>', DeleteSong.as_view(), name='delete_song'),
+    path('artist/delete/<int:pk>', DeleteArtist.as_view(), name='delete_artist'),
+    path('album/delete/<int:pk>', DeleteAlbum.as_view(), name='delete_album'),
+
+    #Modificar Registros
+    path('song/modify/<int:pk>',  ModifySong.as_view(), name='modify_song'),
+    path('artist/modify/<int:pk>',  ModifyArtist.as_view(), name='modify_artist'),
+    path('album/modify/<int:pk>',  ModifyAlbum.as_view(), name='modify_album'),
 ]
 
 if settings.DEBUG: # new

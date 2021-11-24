@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %}Eliminar Artista {{name}} {% endblock %} {%
+    {% block content %}
+    <h1 style="color: white">Eliminar Cancion</h1>
+    
+    <div class="container">
+        <div class="row">
+            <h1>Eliminar autor</h1>
+            <p>¿Está seguro de que quiere eliminar la artista: {{ name }}?</p>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Sí, eliminar.">
+            </form>
+        </div>
+    </div>
+    
+    {% endblock %}

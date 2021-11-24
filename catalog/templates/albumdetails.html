@@ -15,7 +15,6 @@
       </div>
       <table class="table table-hover table-dark album_table" style="color: white;" style="width: 100%; opacity: 0.3;">
         <thead>
-          <th colspan="4" style="text-align: center;">Canciones Mas escuchadas</th>
           <tr>
             <td >Titulo</td>
             <td >Artista</td>
@@ -28,10 +27,13 @@
               <td>{{song.title}}</td>
               <td>{{song.artist}}</td>
               <td>{{song.show_collab}}</td>
-              <td><audio controls src="{{ song.get_song_url }}"></audio></td>
+              <td><audio controls src="{{ song.get_song_url }}"></audio><a href="{% url 'delete_song' song.id %}"><input type="button" value="Eliminar"><a href="{% url 'modify_song' song.id %}"><input type="button" value="Modificar"> </td>
             </tr>
           {% endfor %}
       </table>
+      <p class="text-white">Acciones: <a href="{% url 'modify_album' album.id %}"><input type="button" value="Modificar"></a>
+                <a href="{% url 'delete_album' album.id %}"><input type="button" value="Eliminar"></a>
+      </p>
     </div>
 
     <!-- &nbsp;

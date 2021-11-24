@@ -38,7 +38,6 @@ class Genre(models.Model):
     def get_absolute_url(self):      
         return reverse('genreDetail', args=self.id)
         
-
 class Artist(models.Model):
     """Modelo para los artistas/Bandas"""
 
@@ -84,7 +83,7 @@ class Album(models.Model):
     """Modelo de Album"""
 
     title = CharField("Titulo", max_length=80)
-    artist = models.ForeignKey(Artist, on_delete=models.SET_NULL, null=True) 
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True) 
     releaseDate = DateField("Año de debut")
     image = models.ImageField(upload_to='images/Album', null=True, blank=True)
     
@@ -105,9 +104,9 @@ class Songs(models.Model):
     """Modelo Para Canciones"""
 
     title = CharField("Titulo",max_length=50)
-    artist = models.ForeignKey(Artist, on_delete=models.SET_NULL, null=True, related_name='Artist')
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True, related_name='Artist')
     collab_artists = models.ManyToManyField(Artist, related_name='Collab', blank=True)
-    album =  models.ForeignKey(Album, on_delete=models.SET_NULL, null=True)
+    album =  models.ForeignKey(Album, on_delete=models.CASCADE, null=True)
     release_date = DateField("Fecha de lanzamiento")
     views = IntegerField("Visitas", blank=True, null=True, default=0)
     genre = models.ManyToManyField(Genre, blank=True)

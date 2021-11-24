@@ -1,21 +1,27 @@
 from django.db.models.query_utils import Q
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls.base import reverse
 from catalog.models import Songs, Album, Artist, Countries, Genre
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views import generic
+from django.urls import reverse_lazy
 # django.views.generic import ListView
 
 # Create your views here.
 
 def index(request):
         '''Pagina Inicial de nuestra Web'''
-        songs = Songs.objects.all()
+        songs = Songs.objects.all().order_by('-id')
         albums = Album.objects.all()
 
-        datos = {'songs' : songs,
-                'album' : albums}
+        paginator = Paginator(songs, 12)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
 
+        datos = {'songs' : page_obj,
+                'album' : albums}
         return render(request, 'index.html', context=datos)
 
 
@@ -118,9 +124,79 @@ class SearchResultsListView(ListView):
                 return Songs.objects.filter(title__icontains=query)
 
 
+
+#Creacion de registros
 class CreateSong(generic.CreateView):
         """Crear Cancion"""
         model = Songs
         fields = '__all__'
-        template_name = 'createSong.html'
+        template_name = 'create/createSong.html'
         success_url = '/'
+
+
+class CreateAlbum(generic.CreateView):
+        """Crear Album"""
+        model = Album
+        fields = '__all__'
+        template_name = 'create/createAlbum.html'
+        success_url = '/album'
+
+
+class CreateArtist(generic.CreateView):
+        """Crear Artista"""
+        model = Artist
+        fields = '__all__'
+        template_name = 'create/createArtist.html'
+        success_url = '/artist'
+
+
+#Eliminacion de Registros
+
+class DeleteSong(generic.DeleteView):
+        model = Songs
+        
+        template_name = 'delete/song_delete_confirm.html'
+
+        def get_success_url(self):
+                return reverse_lazy('albumDetail', kwargs={'pk': self.object.album.id})
+
+
+class DeleteAlbum(generic.DeleteView):
+        model = Album
+        template_name = 'delete/album_delete_confirm.html'
+
+        def get_success_url(self):
+                return reverse_lazy('artistDetail', kwargs={'pk': self.object.artist.id})
+
+
+class DeleteArtist(generic.DeleteView):
+        model = Artist
+        success_url = 'artist/'
+        template_name = 'delete/artist_delete_confirm.html'
+
+
+#Modificacion de registros
+
+class ModifySong(generic.UpdateView):
+        model = Songs
+        fields = '__all__'
+        template_name = 'modify/modify_song.html'
+
+        def get_success_url(self):
+                return reverse_lazy('albumDetail', kwargs={'pk': self.object.album.id})
+
+class ModifyArtist(generic.UpdateView):
+        model = Artist
+        fields = '__all__'
+        template_name = 'modify/modify_artist.html'
+
+        def get_success_url(self):
+                return reverse_lazy('artistDetail', kwargs={'pk': self.object.id})
+
+class ModifyAlbum(generic.UpdateView):
+        model = Album
+        fields = '__all__'
+        template_name = 'modify/modify_album.html'
+
+        def get_success_url(self):
+                return reverse_lazy('albumDetail', kwargs={'pk': self.object.id})
