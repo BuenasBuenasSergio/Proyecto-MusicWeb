@@ -9,7 +9,7 @@ from django.db.models.fields import CharField, DateField, IntegerField, TextFiel
 class Countries(models.Model):
     """Modelo de paises"""
     country  = CharField("Pais", max_length=50)
-    image = models.ImageField(upload_to='images/Countries', null=True, blank=True)
+    image = models.ImageField("Imagen",upload_to='images/Countries', null=True, blank=True)
 
     def __str__(self):
         return self.country
@@ -25,7 +25,7 @@ class Countries(models.Model):
 class Genre(models.Model):
     """Modelo de estilos musicales"""
     genre = CharField("genero Musical", max_length= 50)
-    image = models.ImageField(upload_to='images/Genre', null=True, blank=True)
+    image = models.ImageField("Imagen" ,upload_to='images/Genre', null=True, blank=True)
 
     def __str__(self):
         return self.genre
@@ -45,9 +45,9 @@ class Artist(models.Model):
     debutYear = DateField("Año de debut")
     biography = TextField("Biografia")
     genre = models.ManyToManyField(Genre, blank=True)
-    image = models.ImageField(upload_to='images/Artist', null=True, blank=True)
-    imageB = models.ImageField(upload_to='images/Artist/Banner', null=True, blank=True)
-    country = models.ForeignKey(Countries, on_delete=models.SET_NULL, null=True, blank=True)
+    image = models.ImageField("Imagen",upload_to='images/Artist', null=True, blank=True)
+    imageB = models.ImageField("Imagen Banner" ,upload_to='images/Artist/Banner', null=True, blank=True)
+    country = models.ForeignKey( Countries, on_delete=models.SET_NULL, null=True, blank=True)
     
 
 
@@ -82,10 +82,10 @@ class Artist(models.Model):
 class Album(models.Model):
     """Modelo de Album"""
 
-    title = CharField("Titulo", max_length=80)
+    title = CharField("Titulo Album", max_length=80)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True) 
     releaseDate = DateField("Año de debut")
-    image = models.ImageField(upload_to='images/Album', null=True, blank=True)
+    image = models.ImageField("Imagen",upload_to='images/Album', null=True, blank=True)
     
     @property
     def get_image_url(self):

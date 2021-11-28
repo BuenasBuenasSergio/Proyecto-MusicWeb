@@ -22,6 +22,41 @@
                   </div>
             {% endfor %}
         </div>
+         <!--Pagination-->
+         <nav>
+          <ul class="pagination justify-content-center">
+              {% if artistas.has_previous %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ artistas.previous_page_number }}" >Anterior</a>
+                  </li>
+                  {% else %}
+                  <li class="page-item ">
+                      <a class="page-link" href="#" tabindex="-1" aria-disabled="True" style="color: grey;">Anterior</a>
+                  </li>
+              {% endif %}
+              {% for i in artistas.paginator.page_range %}
+                  {% if artistas.number == i %}
+                      <li class="page-item active" aria-current="page">
+                          <span class="page-link">
+                              {{ i }}
+                          </span>
+                      </li>
+                  {% else %}
+                      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+              {% endfor %}
+              {% if artistas.has_next %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ artistas.next_page_number }}">Siguiente</a>
+                  </li>
+              {% else %}
+                  <li class="page-item ">
+                      <a class="page-link" href="#" tabindex="-1" aria-disabled="True" style="color: grey;">Siguiente</a>
+                  </li>
+              {% endif %}
+          </ul>
+      </nav>
     </div>
+    
 
     {% endblock %}

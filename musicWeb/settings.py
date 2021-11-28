@@ -15,7 +15,9 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+PROYECT_DIR = Path(__file__).resolve().parent
 
+#'DIRS': [os.path.join(PROYECT_DIR, 'templates')],
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -57,7 +59,8 @@ ROOT_URLCONF = 'musicWeb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        #Cambiando direccionamiento para el loggin
+        'DIRS': [os.path.join(PROYECT_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,3 +137,4 @@ INTERNAL_IPS =[
 #Añadiendo carpeta de imagenes, 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

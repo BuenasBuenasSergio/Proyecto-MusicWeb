@@ -22,10 +22,12 @@ from catalog.views import   ModifySong, ModifyAlbum, ModifyArtist
 from django.conf import settings # new
 from django.urls import path # new
 from django.conf.urls.static import static # new
-
+from django.urls.conf import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #login
+    path('accounts/', include('django.contrib.auth.urls')),
     #Index
     #path('', HomePageView.as_view(), name='index'),
     path('', index, name='index'),

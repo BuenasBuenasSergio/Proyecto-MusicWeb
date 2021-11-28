@@ -15,11 +15,22 @@
       </div>
       <table class="table table-hover table-dark album_table" style="color: white;" style="width: 100%; opacity: 0.3;">
         <thead>
+          {% if user.is_staff%}
+          <th colspan="5">
+                <p class="text-white">Acciones:
+                <a href="{% url 'create_song' %}"><input type="button" class="btn-success" value="Añadir Cancion">
+                <a href="{% url 'modify_album' album.id %}"><input type="button" class="btn-success" value="Modificar Album"></a>
+                <a href="{% url 'delete_album' album.id %}"><input type="button" class="btn-success" value="Eliminar"></a>
+          </th>
+          {% endif %}
           <tr>
             <td >Titulo</td>
             <td >Artista</td>
             <td >Colaborador</td>
             <td></td>
+            {% if user.is_staff%}
+            <td>Modificar/Eliminar</td>
+            {% endif %}
           </tr>
         </thead>
           {% for song in song_list %}
@@ -27,12 +38,16 @@
               <td>{{song.title}}</td>
               <td>{{song.artist}}</td>
               <td>{{song.show_collab}}</td>
-              <td><audio controls src="{{ song.get_song_url }}"></audio><a href="{% url 'delete_song' song.id %}"><input type="button" value="Eliminar"><a href="{% url 'modify_song' song.id %}"><input type="button" value="Modificar"> </td>
+              <td><audio controls src="{{ song.get_song_url }}"></audio> </td>
+              {% if user.is_staff%}
+              <td>
+                  <a href="{% url 'modify_song' song.id %}"<i class="bi bi-pencil-square"></i>
+                  <a href="{% url 'delete_song' song.id %}"><i class="bi bi-trash-fill"></i>
+              </td>
+              {% endif %}
             </tr>
           {% endfor %}
       </table>
-      <p class="text-white">Acciones: <a href="{% url 'modify_album' album.id %}"><input type="button" value="Modificar"></a>
-                <a href="{% url 'delete_album' album.id %}"><input type="button" value="Eliminar"></a>
       </p>
     </div>
 

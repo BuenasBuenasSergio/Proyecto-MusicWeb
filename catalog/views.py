@@ -7,40 +7,44 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views import generic
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 # django.views.generic import ListView
 
 # Create your views here.
 
+#VISTA INDEX
 def index(request):
         '''Pagina Inicial de nuestra Web'''
-        songs = Songs.objects.all().order_by('-id')
-        albums = Album.objects.all()
+        songs = Songs.objects.all().order_by('-id')[:4]
+        albums = Album.objects.all().order_by('-id')[:4]
+        artist = Artist.objects.all().order_by('-id')[:4]
 
-        paginator = Paginator(songs, 12)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+        #paginator = Paginator(songs, 12)
+        #page_number = request.GET.get('page')
+        #page_obj = paginator.get_page(page_number)
 
-        datos = {'songs' : page_obj,
-                'album' : albums}
+        datos = {'songs' : songs,
+                'album' : albums,
+                'artist' : artist}
         return render(request, 'index.html', context=datos)
 
 
-
+#VISTAS ARTISTAS
+@login_required
 def artist(request):
         """Pagina listado de artistas"""
-        artistas = Artist.objects.all()
+        artistas = Artist.objects.all().order_by('name')
 
-        datos = {'artistas': artistas}
+        paginator = Paginator(artistas, 12)
+        page_number = request.GET.get('page')
+        artist_pag = paginator.get_page(page_number)
 
+
+        datos = {'artistas': artist_pag}
+
+        
         return render(request, 'artist.html', context=datos)
-
-
-def artistDetail(request, pk):
-
-        details = get_object_or_404(Artist, pk=int(id))
-        datos = {'details': details}
-
-        return render(request, 'artistdetails.html', context=datos)
 
 
 class ArtistDetailView(DetailView):
@@ -54,17 +58,23 @@ class ArtistDetailView(DetailView):
         context['album_list'] = Album.objects.filter(artist=self.object)
         return context
 
+#VISTAS ALBUMS
+@login_required
 def albums(request):
         """Pagina listado de Paises"""
         albums = Album.objects.all().order_by('title')
 
-        datos = {'albums': albums}
+        paginator = Paginator(albums, 12)
+        page_number = request.GET.get('page')
+        album_pag = paginator.get_page(page_number)
+
+        datos = {'albums': album_pag}
 
         return render(request, 'album.html', context=datos)
 
 
 class AlbumDetailView(DetailView):
-
+    """Detalles de un album"""
     model = Album
     template_name = 'albumdetails.html'
 
@@ -74,7 +84,8 @@ class AlbumDetailView(DetailView):
         return context
 
 
-
+#VISTAS PAISES
+@login_required
 def countries(request):
         """Pagina listado de Paises"""
         countries = Countries.objects.all()
@@ -84,7 +95,7 @@ def countries(request):
         return render(request, 'countries.html', context=datos)
 
 class CountryDetailView(DetailView):
-
+        """Cantates de cada pais"""
         model = Countries
         template_name = 'countrydetails.html'
 
@@ -94,6 +105,8 @@ class CountryDetailView(DetailView):
                 return context
 
 
+#VISTAS GENEROS
+@login_required
 def genres(request):
         """Pagina listado de Paises"""
         genres = Genre.objects.all()
@@ -103,7 +116,7 @@ def genres(request):
         return render(request, 'genres.html', context=datos)
 
 class GenresDetailView(DetailView):
-
+        """Cantantes perteneciente a al genero"""
         model = Genre
         template_name = 'genredetails.html'
 
@@ -111,7 +124,6 @@ class GenresDetailView(DetailView):
                 context = super().get_context_data(**kwargs)
                 context['artist_list'] = Artist.objects.filter(genre=self.object)
                 return context
-
 
 
 class SearchResultsListView(ListView):
@@ -122,7 +134,6 @@ class SearchResultsListView(ListView):
         def get_queryset(self): # new
                 query = self.request.GET.get('q')
                 return Songs.objects.filter(title__icontains=query)
-
 
 
 #Creacion de registros
@@ -153,8 +164,8 @@ class CreateArtist(generic.CreateView):
 #Eliminacion de Registros
 
 class DeleteSong(generic.DeleteView):
+        """Eliminar Cancion"""
         model = Songs
-        
         template_name = 'delete/song_delete_confirm.html'
 
         def get_success_url(self):
@@ -162,6 +173,7 @@ class DeleteSong(generic.DeleteView):
 
 
 class DeleteAlbum(generic.DeleteView):
+        """Eliminar Album"""
         model = Album
         template_name = 'delete/album_delete_confirm.html'
 
@@ -170,6 +182,7 @@ class DeleteAlbum(generic.DeleteView):
 
 
 class DeleteArtist(generic.DeleteView):
+        """Eliminar Artista"""
         model = Artist
         success_url = 'artist/'
         template_name = 'delete/artist_delete_confirm.html'
@@ -178,6 +191,7 @@ class DeleteArtist(generic.DeleteView):
 #Modificacion de registros
 
 class ModifySong(generic.UpdateView):
+        """Modificar Cancion"""
         model = Songs
         fields = '__all__'
         template_name = 'modify/modify_song.html'
@@ -186,6 +200,7 @@ class ModifySong(generic.UpdateView):
                 return reverse_lazy('albumDetail', kwargs={'pk': self.object.album.id})
 
 class ModifyArtist(generic.UpdateView):
+        """Modificar Artista"""
         model = Artist
         fields = '__all__'
         template_name = 'modify/modify_artist.html'
@@ -194,6 +209,7 @@ class ModifyArtist(generic.UpdateView):
                 return reverse_lazy('artistDetail', kwargs={'pk': self.object.id})
 
 class ModifyAlbum(generic.UpdateView):
+        """Modificar Album"""
         model = Album
         fields = '__all__'
         template_name = 'modify/modify_album.html'

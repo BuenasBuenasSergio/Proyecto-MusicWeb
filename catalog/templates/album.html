@@ -13,6 +13,8 @@
                       <div class="card-img-overlay">
                           <div  class="texto">
                               <h5 class="card-title">{{album.title}}</h5>
+                              <a href="{% url 'artistDetail' album.artist.id %}">
+                                <p class="card-text">{{album.artist}}</p>
                           </div>
                       </div>
                     </a>
@@ -20,5 +22,41 @@
             {% endfor %}
         </div>
     </div>
+
+                <!--Pagination-->
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        {% if albums.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ albums.previous_page_number }}" >Anterior</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item ">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="True" style="color: grey;">Anterior</a>
+                            </li>
+                        {% endif %}
+                        {% for i in albums.paginator.page_range %}
+                            {% if albums.number == i %}
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link">
+                                        {{ i }}
+                                    </span>
+                                </li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if albums.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ albums.next_page_number }}">Siguiente</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item ">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="True" style="color: grey;">Siguiente</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                <!--end of Pagination-->
 
     {% endblock %}

@@ -1,16 +1,69 @@
-{% extends "base.html" %} {% block title %} Modificar :{{name}} {% endblock %} {%
+{% extends "base.html" %} {% block title %} Modificar :{{form.name.value}} {% endblock %} {%
     {% block content %}
-    <div class="container">
-        <div class="row">
-            <h1 class="text-white">Modificar{{name}}</h1>
-            <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-                <table class="text-white">
-                    {{form.as_table}}
-                </table>
-                <input type="submit" value="Modificar">
-            </form>
-        </div>
-    </div>
+    <div class="container text-white" >
+        <div id="doc-header" class="doc-header text-center">
+            <h1 class="doc-title">Modificar {{form.name.value}}</h1>
+        </div><!--//doc-header-->
+        <div class="doc-body row justify-content-md-center" >
+            <div class="doc-content col-md-9 col-12 order-1">
+                <div class="content-inner">
+                    <section id="dashboards" class="doc-section">
+                        <div class="section-block">
+                            <form action="" method="post" enctype="multipart/form-data" style="border: 1 solid grey;">
+                                {% csrf_token %}
+                                <div class="form-group row justify-content-md-center">
+                                    <label  class="col-sm-2 form-control-label">{{form.name.label}}</label>
+                                    <div class="col-sm-10">
+                                        {{form.name}}
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-md-center">
+                                    <label  class="col-sm-2 form-control-label">{{form.debutYear.label}}</label>
+                                    <div class="col-sm-10">
+                                        {{form.debutYear}}
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-md-center">
+                                    <label  class="col-sm-2 form-control-label">{{form.biography.label}}</label>
+                                    <div class="col-sm-10">
+                                        {{form.biography}}
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-md-center">
+                                    <label  class="col-sm-2 form-control-label">{{form.genre.label}}</label>
+                                    <div class="col-sm-10">
+                                        {{form.genre}}
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-md-center">
+                                    <label  class="col-sm-2 form-control-label">{{form.country.label}}</label>
+                                    <div class="col-sm-10">
+                                        {{form.country}}
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-md-center">
+                                    <label  class="col-sm-2 form-control-label">{{form.image.label}}</label>
+                                    <div class="col-sm-10">
+                                        {{form.image}}
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-md-center">
+                                    <label  class="col-sm-2 form-control-label">{{form.imageB.label}}</label>
+                                    <div class="col-sm-10">
+                                        {{form.imageB}}
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-md-center">
+                                    <div class="col-sm-offset-6 ">
+                                        <button type="submit" class="btn btn-success">Modificar: {{form.name.value}}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div><!--//section-block-->
+                    </section><!--//doc-section-->
+                </div><!--//content-inner-->
+            </div><!--//doc-content-->
+        </div><!--//doc-body-->              
+    </div><!--//container-->
     
     {% endblock %}

@@ -4,61 +4,67 @@
 {% block content %}
 
 
-    <h1 style="color: white;">Ultimos lanzamientos</h1>
-
+    <h1 style="color: white;">Ultimas canciones</h1>
+    
     <div class="container">
-            <div class="row">
-                {% for song in songs %}
-                <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3" >
-                    <div id="fondo">
-                        <img class="card-img portadas" src="{{song.album.get_image_url}}">
-                    </div>
-                    <div class="card-img-overlay">
-                        <div  class="texto">
-                            <h5 class="card-title">{{song.title}}</h5>
-                            <a href="{% url 'artistDetail' song.artist.id %}">
-                                <p class="card-text">{{song.artist}}</p>
-                            </a>
-                            <p class="card-text text-center "><audio controls src="{{ song.get_song_url }}" class=""></audio></p>
-                        </div>
+        <div class="row">
+            {% for song in songs %}
+            <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3">
+                <div id="fondo">
+                    <img class="card-img portadas" src="{{song.album.get_image_url}}">
+                </div>
+                <div class="card-img-overlay">
+                    <div class="texto">
+                        <h5 class="card-title">{{song.title}}</h5>
+                        <a href="{% url 'artistDetail' song.artist.id %}">
+                            <p class="card-text">{{song.artist}}</p>
+                        </a>
+                        <p class="card-text text-center "><audio controls src="{{ song.get_song_url }}" class=""></audio>
+                        </p>
                     </div>
                 </div>
+            </div>
             {% endfor %}
         </div>
-            <!--Pagination-->
-        <nav>
-            <ul class="pagination justify-content-center">
-                {% if songs.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ songs.previous_page_number }}" >Anterior</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item ">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="True" style="color: grey;">Anterior</a>
-                    </li>
-                {% endif %}
-                {% for i in songs.paginator.page_range %}
-                    {% if songs.number == i %}
-                        <li class="page-item active" aria-current="page">
-                            <span class="page-link">
-                                {{ i }}
-                            </span>
-                        </li>
-                    {% else %}
-                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                    {% endif %}
-                {% endfor %}
-                {% if songs.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ songs.next_page_number }}">Siguiente</a>
-                    </li>
-                {% else %}
-                    <li class="page-item ">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="True" style="color: grey;">Siguiente</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-        <!--end of Pagination-->
+    </div>
+
+    <h1 style="color: white;">Ultimos albums</h1>
+    <div class="container">
+        <div class="row">
+            {% for album in album %}
+            <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3">
+                <a href="{% url 'albumDetail' album.id %}">
+                    <img class="card-img" src="{{album.get_image_url}}">
+                    <div class="card-img-overlay">
+                        <div class="texto">
+                            <h5 class="card-title">{{album.title}}</h5>
+                            <a href="{% url 'artistDetail' album.artist.id %}">
+                                <p class="card-text">{{album.artist}}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <h1 style="color: white;">Ultimos artistas</h1>
+    <div class="container">
+        <div class="row">
+            {% for artista in artist %}
+            <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3">
+                <a href="{% url 'artistDetail' artista.id %}">
+                    <div id="fondo">
+                        <img class="card-img" src="{{artista.get_image_url}}">
+                    </div>
+                    <div class="card-img-overlay">
+                        <div class="texto">
+                            <h5 class="card-title">{{artista.name}}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

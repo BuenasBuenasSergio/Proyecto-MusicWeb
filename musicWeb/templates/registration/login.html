@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %} Inicio Sesion{% endblock %}
+{% block content %}
+
+<div class="container">
+    
+        <div class="card bg-dark text-white">
+            <div class="card-header">
+                Login
+            </div>
+            <div class="card-body">
+                <form action="{% url 'login' %}"  method="post">
+                    {% csrf_token %}
+                    <p>{{ form.username.label_tag }}: {{ form.username }}</p>
+                    <p>{{ form.password.label_tag }}: {{ form.password }}</p>
+                    <p><input type="submit" value="Login" />
+                        <input type="hidden" name="next" value="{{ next }}" /></p>
+                </form>
+            </div>
+        </div>
+    
+</div>
+
+{% endblock %}
