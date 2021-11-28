@@ -30,6 +30,21 @@ def index(request):
         return render(request, 'index.html', context=datos)
 
 
+#VISTAS Canciones
+@login_required
+def songs(request):
+        """Pagina listado de artistas"""
+        songs = Songs.objects.all().order_by('title')
+
+        paginator = Paginator(songs, 12)
+        page_number = request.GET.get('page')
+        song_pag = paginator.get_page(page_number)
+
+        datos = {'songs': song_pag}
+
+        
+        return render(request, 'songs.html', context=datos)
+
 #VISTAS ARTISTAS
 @login_required
 def artist(request):
@@ -47,7 +62,7 @@ def artist(request):
         return render(request, 'artist.html', context=datos)
 
 
-class ArtistDetailView(DetailView):
+class ArtistDetailView(DetailView,LoginRequiredMixin):
 
     model = Artist
     template_name = 'artistdetails.html'
@@ -73,7 +88,7 @@ def albums(request):
         return render(request, 'album.html', context=datos)
 
 
-class AlbumDetailView(DetailView):
+class AlbumDetailView(DetailView, LoginRequiredMixin):
     """Detalles de un album"""
     model = Album
     template_name = 'albumdetails.html'
@@ -131,9 +146,14 @@ class SearchResultsListView(ListView):
         model = Songs
         context_object_name = 'songs_list'
         template_name = 'search_songs.html'
-        def get_queryset(self): # new
+
+        def get_context_data(self, **kwargs):
+                context = super().get_context_data(**kwargs)
                 query = self.request.GET.get('q')
-                return Songs.objects.filter(title__icontains=query)
+                context['songs_list'] = Songs.objects.filter(title__icontains=query).order_by('-id')[:4]
+                context['album_list'] = Album.objects.filter(title__icontains=query).order_by('-id')[:4]
+                context['artist_list'] = Artist.objects.filter(name__icontains=query).order_by('-id')[:4]
+                return context
 
 
 #Creacion de registros
@@ -142,7 +162,9 @@ class CreateSong(generic.CreateView):
         model = Songs
         fields = '__all__'
         template_name = 'create/createSong.html'
-        success_url = '/'
+        
+        def get_success_url(self):
+                return reverse_lazy('albumDetail', kwargs={'pk': self.object.album.id})
 
 
 class CreateAlbum(generic.CreateView):
@@ -208,7 +230,7 @@ class ModifyArtist(generic.UpdateView):
         def get_success_url(self):
                 return reverse_lazy('artistDetail', kwargs={'pk': self.object.id})
 
-class ModifyAlbum(generic.UpdateView):
+class ModifyAlbum(generic.UpdateView, LoginRequiredMixin):
         """Modificar Album"""
         model = Album
         fields = '__all__'

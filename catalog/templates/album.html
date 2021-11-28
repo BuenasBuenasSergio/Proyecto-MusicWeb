@@ -7,19 +7,19 @@
     <div class="container">
             <div class="row">
                 {% for album in albums %}
-                <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3" >
+                <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3">
                     <a href="{% url 'albumDetail' album.id %}">
-                      <img class="card-img" src="{{album.get_image_url}}">
-                      <div class="card-img-overlay">
-                          <div  class="texto">
-                              <h5 class="card-title">{{album.title}}</h5>
-                              <a href="{% url 'artistDetail' album.artist.id %}">
-                                <p class="card-text">{{album.artist}}</p>
-                          </div>
-                      </div>
+                        <img class="card-img" src="{{album.get_image_url}}">
+                        <div class="card-img-overlay">
+                            <div class="texto">
+                                <h5 class="card-title">{{album.title}}</h5>
+                                <a href="{% url 'artistDetail' album.artist.id %}">
+                                    <p class="card-text">{{album.artist}}</p>
+                            </div>
+                        </div>
                     </a>
-                  </div>
-            {% endfor %}
+                </div>
+                {% endfor %}
         </div>
     </div>
 

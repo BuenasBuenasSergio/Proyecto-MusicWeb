@@ -18,9 +18,9 @@
           {% if user.is_staff%}
           <th colspan="5">
                 <p class="text-white">Acciones:
-                <a href="{% url 'create_song' %}"><input type="button" class="btn-success" value="Añadir Cancion">
-                <a href="{% url 'modify_album' album.id %}"><input type="button" class="btn-success" value="Modificar Album"></a>
-                <a href="{% url 'delete_album' album.id %}"><input type="button" class="btn-success" value="Eliminar"></a>
+                <a href="{% url 'create_song' %}"><button type="button" class="btn btn-success">Añadir Cancion</button>
+                <a href="{% url 'modify_album' album.id %}"><button type="button" class="btn btn-success">Modificar Album</button></a>
+                <a href="{% url 'delete_album' album.id %}"><button type="button" class="btn btn-danger">Eliminar Album</button></a>
           </th>
           {% endif %}
           <tr>

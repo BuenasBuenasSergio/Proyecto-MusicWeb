@@ -8,55 +8,54 @@
             <div class="row">
                 {% for artista in artistas %}
                 
-                  <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3" >
+                <div class="card bg-black text-white col-6 col-sm-6 col-md-4 col-lg-3">
                     <a href="{% url 'artistDetail' artista.id %}">
-                      <div id="fondo">
-                          <img class="card-img" src="{{artista.get_image_url}}" >
-                      </div>
-                      <div class="card-img-overlay">
-                          <div  class="texto">
-                          <h5 class="card-title">{{artista.name}}</h5>
-                          </div>
-                      </div>
+                        <div id="fondo">
+                            <img class="card-img" src="{{artista.get_image_url}}">
+                        </div>
+                        <div class="card-img-overlay">
+                            <div class="texto">
+                                <h5 class="card-title">{{artista.name}}</h5>
+                            </div>
+                        </div>
                     </a>
-                  </div>
-            {% endfor %}
+                </div>
+                {% endfor %}
         </div>
-         <!--Pagination-->
-         <nav>
-          <ul class="pagination justify-content-center">
-              {% if artistas.has_previous %}
-                  <li class="page-item">
-                      <a class="page-link" href="?page={{ artistas.previous_page_number }}" >Anterior</a>
-                  </li>
-                  {% else %}
-                  <li class="page-item ">
-                      <a class="page-link" href="#" tabindex="-1" aria-disabled="True" style="color: grey;">Anterior</a>
-                  </li>
-              {% endif %}
-              {% for i in artistas.paginator.page_range %}
-                  {% if artistas.number == i %}
-                      <li class="page-item active" aria-current="page">
-                          <span class="page-link">
-                              {{ i }}
-                          </span>
-                      </li>
-                  {% else %}
-                      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                  {% endif %}
-              {% endfor %}
-              {% if artistas.has_next %}
-                  <li class="page-item">
-                      <a class="page-link" href="?page={{ artistas.next_page_number }}">Siguiente</a>
-                  </li>
-              {% else %}
-                  <li class="page-item ">
-                      <a class="page-link" href="#" tabindex="-1" aria-disabled="True" style="color: grey;">Siguiente</a>
-                  </li>
-              {% endif %}
-          </ul>
-      </nav>
-    </div>
-    
+        <!--Pagination-->
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if artistas.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ artistas.previous_page_number }}">Anterior</a>
+                </li>
+                {% else %}
+                <li class="page-item ">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="True" style="color: grey;">Anterior</a>
+                </li>
+                {% endif %}
+                {% for i in artistas.paginator.page_range %}
+                {% if artistas.number == i %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">
+                        {{ i }}
+                    </span>
+                </li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if artistas.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ artistas.next_page_number }}">Siguiente</a>
+                </li>
+                {% else %}
+                <li class="page-item ">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="True" style="color: grey;">Siguiente</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        </div>
 
     {% endblock %}

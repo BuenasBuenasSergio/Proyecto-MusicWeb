@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from catalog.views import  albums, index, artist, countries, AlbumDetailView, ArtistDetailView,CountryDetailView, genres,GenresDetailView,SearchResultsListView 
+from catalog.views import  albums, index, artist, countries, AlbumDetailView, ArtistDetailView,CountryDetailView, genres,GenresDetailView,SearchResultsListView,songs
 from catalog.views import  CreateSong, CreateAlbum, CreateArtist
 from catalog.views import  DeleteSong, DeleteAlbum, DeleteArtist
 from catalog.views import   ModifySong, ModifyAlbum, ModifyArtist
@@ -29,8 +29,9 @@ urlpatterns = [
     #login
     path('accounts/', include('django.contrib.auth.urls')),
     #Index
-    #path('', HomePageView.as_view(), name='index'),
     path('', index, name='index'),
+    #Songs
+    path('song/', songs, name='song'),
     #Artist
     path('artist/', artist, name='artist'),
     path('artist/details/<int:pk>', ArtistDetailView.as_view(), name='artistDetail'),
